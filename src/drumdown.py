@@ -1,57 +1,73 @@
-from typing import List, Tuple
+from enum import Enum
+from typing import List, Tuple, Set
 from dataclasses import dataclass
 
 
-CLOSED_HAT = "x"
-KICK = "K"
-REST = "|"
-SNARE = "s"
-TOM = "t"
+class Note(Enum):
+    CLOSED_HAT = "x"
+    KICK = "K"
+    REST = "|"
+    SNARE = "s"
+    TOM = "t"
+
+
+NoteSet = Set[Note]
 
 
 @dataclass
 class GridSlice:
-    notes: set
+    note_type: str
+    notes: NoteSet
     index: int
 
     def __str__(self):
-        hat = "|" if self.index % 2 == 0 else " "
-        if CLOSED_HAT in self.notes:
+        hat = "|" if self.notes & {Note.REST, Note.SNARE, Note.KICK} else " "
+        if Note.CLOSED_HAT in self.notes:
             hat = "x"
         snare = " "
-        if SNARE in self.notes:
+        if Note.SNARE in self.notes:
             snare = "/"
-        elif KICK in self.notes:
+        elif Note.KICK in self.notes:
             snare = "|"
         tom = " "
-        if TOM in self.notes:
+        if Note.TOM in self.notes:
             tom = "/"
-        elif KICK in self.notes:
+        elif Note.KICK in self.notes:
             tom = "|"
         kick = " "
-        if KICK in self.notes:
+        if Note.KICK in self.notes:
             kick = "/"
-        return "".join([
-            "-",
-            hat,
-            snare,
-            tom,
-            kick,
-        ])
+        return "".join(
+            [
+                self.note_type,
+                hat,
+                snare,
+                tom,
+                kick,
+            ]
+        )
 
 
 def transpose(x: List[str]) -> List[str]:
-    return [''.join(i) for i in zip(*x)]
+    return ["".join(i) for i in zip(*x)]
 
 
 def parse_grid_slice(i_x: Tuple[int, str]) -> GridSlice:
     i, x = i_x
-    if x == "-x||/":
-        return GridSlice({ CLOSED_HAT, KICK }, i)
-    elif x == "-x/  ":
-        return GridSlice({ CLOSED_HAT, SNARE }, i)
-    else:
-        return GridSlice({ REST }, i)
+    notes: NoteSet = set([])
+    note_type, hat, snare, tom, kick = list(x)
+    match hat:
+        case "x":
+            notes.add(Note.CLOSED_HAT)
+        case "|":
+            notes.add(Note.REST)
+    if tom == "/":
+        notes.add(Note.TOM)
+    if snare == "/":
+        notes.add(Note.SNARE)
+    if kick == "/":
+        notes.add(Note.KICK)
+    return GridSlice(note_type, notes, i)
 
 
 def parse_note_group(x: List[str]) -> List[GridSlice]:
