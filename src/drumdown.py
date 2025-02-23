@@ -109,5 +109,5 @@ def parse_note_group(x: List[str]) -> List[GridSlice]:
     return list(map(parse_grid_slice, enumerate(transpose(x))))
 
 
-def dump(x: List[GridSlice]) -> List[str]:
+def dump_note_group(x: List[GridSlice]) -> List[str]:
     return transpose(list(map(str, x)))

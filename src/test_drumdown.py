@@ -1,5 +1,11 @@
 from typing import List
-from .drumdown import GridSlice, Note, parse_note_group, dump, parse_grid_slice
+from .drumdown import (
+    GridSlice,
+    Note,
+    parse_note_group,
+    dump_note_group,
+    parse_grid_slice,
+)
 
 
 def pipe(data, *funcs):
@@ -16,7 +22,9 @@ def test_parse_money_beat_half_bar():
         "|       ",
         "/       ",
     ]
-    assert pipe(input, parse_note_group, dump, "\n".join) == "\n".join(input)
+    assert pipe(
+        input, parse_note_group, dump_note_group, "\n".join
+    ) == "\n".join(input)
 
 
 def test_parse_busier_kick_pattern():
@@ -27,7 +35,9 @@ def test_parse_busier_kick_pattern():
         "| |   | ",
         "/ /   / ",
     ]
-    assert pipe(input, parse_note_group, dump, "\n".join) == "\n".join(input)
+    assert pipe(
+        input, parse_note_group, dump_note_group, "\n".join
+    ) == "\n".join(input)
 
 
 def test_parse_sixteenth_roll():
@@ -38,4 +48,6 @@ def test_parse_sixteenth_roll():
         "/       ",
         "/       ",
     ]
-    assert pipe(input, parse_note_group, dump, "\n".join) == "\n".join(input)
+    assert pipe(
+        input, parse_note_group, dump_note_group, "\n".join
+    ) == "\n".join(input)
