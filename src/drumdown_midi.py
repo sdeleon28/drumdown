@@ -11,17 +11,21 @@ TD_17KVX_NOTES = {
     Note.TOM: 41,
     Note.REST: None,
 }
+DEFAULT_TICKS_PER_BEAT = 480
+
+NoteGroup = List[GridSlice]
+Phrase = List[NoteGroup]
 
 
 def write_note_group_to_midi(
     track: mido.MidiTrack,
-    note_group: List[GridSlice],
-    ticks_per_beat=480,
+    note_group: NoteGroup,
+    ticks_per_beat=DEFAULT_TICKS_PER_BEAT,
     offset=None,
 ):
     sixteenth_note_duration = ticks_per_beat // 4
     if offset is None:
-        offset=-sixteenth_note_duration
+        offset = -sixteenth_note_duration
     for i, grid_slice in enumerate(note_group):
         if grid_slice.is_rest:
             offset += sixteenth_note_duration
@@ -50,4 +54,18 @@ def write_note_group_to_midi(
                 )
                 track.append(msg)
                 offset = -sixteenth_note_duration
+    return offset
+
+
+def write_phrase_to_midi(
+    track: mido.MidiTrack,
+    phrase: Phrase,
+    ticks_per_beat=DEFAULT_TICKS_PER_BEAT,
+    offset=None
+):
+    offset = None
+    for note_group in phrase:
+        offset = write_note_group_to_midi(
+            track, note_group, ticks_per_beat=ticks_per_beat, offset=offset
+        )
     return offset
