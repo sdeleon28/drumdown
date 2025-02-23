@@ -1,7 +1,7 @@
 import mido
 
 from typing import List, Tuple
-from .drumdown import GridSlice, Note
+from .drumdown import GridSlice, Heading, Note, Phrase, Song
 from .drumdown_midi import (
     write_note_group_to_midi,
     write_phrase_to_midi,
@@ -64,7 +64,7 @@ def test_write_phrase_to_midi():
     out_mid.tracks.append(track)
     write_phrase_to_midi(
         track,
-        [half_money_beat, half_money_beat],
+        Phrase([half_money_beat, half_money_beat]),
         ticks_per_beat=ticks_per_beat,
     )
     out_mid.save(filename)
@@ -115,10 +115,13 @@ def test_write_song_to_midi():
     out_mid.tracks.append(track)
     write_song_to_midi(
         track,
-        [
-            [half_money_beat, half_money_beat],
-            [half_money_beat, half_money_beat],
-        ],
+        Song([
+            Heading("Money beat song", 1),
+            Heading("Verse", 2),
+            Phrase([half_money_beat, half_money_beat]),
+            Heading("Chorus", 2),
+            Phrase([half_money_beat, half_money_beat]),
+        ]),
         ticks_per_beat=ticks_per_beat,
     )
     out_mid.save(filename)

@@ -2,7 +2,7 @@ import mido
 import itertools
 
 from typing import List
-from .drumdown import GridSlice, Note, NoteGroup, Phrase, Song
+from .drumdown import GridSlice, Heading, Note, NoteGroup, Phrase, Song
 
 
 TD_17KVX_NOTES = {
@@ -75,5 +75,5 @@ def write_song_to_midi(
     ticks_per_beat=DEFAULT_TICKS_PER_BEAT,
 ):
     offset = None
-    note_groups = list(itertools.chain.from_iterable(song))
+    note_groups = Phrase(list(itertools.chain.from_iterable(song.phrases)))
     write_phrase_to_midi(track, note_groups, ticks_per_beat)

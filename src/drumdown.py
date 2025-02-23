@@ -58,8 +58,29 @@ class GridSlice:
 
 
 NoteGroup = List[GridSlice]
-Phrase = List[NoteGroup]
-Song = List[Phrase]
+
+
+@dataclass
+class Heading:
+    text: str
+    depth: int
+
+
+@dataclass
+class Phrase:
+    groups: List[NoteGroup]
+
+    def __iter__(self):
+        return iter(self.groups)
+
+
+@dataclass
+class Song:
+    nodes: List[Phrase | Heading]
+
+    @property
+    def phrases(self) -> List[Phrase]:
+        return [node for node in self.nodes if type(node) == Phrase]
 
 
 def transpose(x: List[str]) -> List[str]:
