@@ -171,6 +171,7 @@ mccabe @ file:///opt/conda/conda-bld/mccabe_1644221741721/work
 mdit-py-plugins @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/mdit-py-plugins_1699258689091/work
 mdurl @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/mdurl_1699237660008/work
 menuinst @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_ad321a45td/croot/menuinst_1723567614652/work
+mido==1.3.3
 mistune @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/mistune_1699258805653/work
 monotonic==1.6
 more-itertools @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_1di4owdn65/croot/more-itertools_1727185454223/work
