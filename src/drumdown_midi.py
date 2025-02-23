@@ -2,7 +2,7 @@ import mido
 import itertools
 
 from typing import List
-from .drumdown import GridSlice, Note
+from .drumdown import GridSlice, Note, NoteGroup, Phrase, Song
 
 
 TD_17KVX_NOTES = {
@@ -13,10 +13,6 @@ TD_17KVX_NOTES = {
     Note.REST: None,
 }
 DEFAULT_TICKS_PER_BEAT = 480
-
-NoteGroup = List[GridSlice]
-Phrase = List[NoteGroup]
-Song = List[Phrase]
 
 
 def write_note_group_to_midi(

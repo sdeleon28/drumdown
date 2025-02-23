@@ -57,6 +57,11 @@ class GridSlice:
         )
 
 
+NoteGroup = List[GridSlice]
+Phrase = List[NoteGroup]
+Song = List[Phrase]
+
+
 def transpose(x: List[str]) -> List[str]:
     return ["".join(i) for i in zip(*x)]
 
