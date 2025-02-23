@@ -111,3 +111,32 @@ def parse_note_group(x: List[str]) -> List[GridSlice]:
 
 def dump_note_group(x: List[GridSlice]) -> List[str]:
     return transpose(list(map(str, x)))
+
+
+def parse_phrase(x: List[str]) -> Phrase:
+    note_type_line = x[0]
+    group_lengths = [len(x) for x in note_type_line.split()]
+    tx = transpose(x)
+    groups = []
+    for l in group_lengths:
+        groups.append(
+            parse_note_group(transpose(tx[:l]))
+        )
+        tx = tx[l+2:]
+    return Phrase(groups)
+
+
+def concatenate_note_groups(x: List[str], y: List[str]) -> List[str]:
+    if not x:
+        return y
+    return [a + b for a, b in zip(x, y)]
+
+
+def dump_phrase(x: Phrase) -> List[str]:
+    dumped_groups = [dump_note_group(group) for group in x]
+    out: List[str] = []
+    for i, g in enumerate(dumped_groups):
+        out = concatenate_note_groups(out, g)
+        if i < len(dumped_groups) - 1:
+            out = concatenate_note_groups(out, ["  "] * len(g))
+    return out

@@ -2,9 +2,11 @@ from typing import List
 from .drumdown import (
     GridSlice,
     Note,
+    dump_phrase,
     parse_note_group,
     dump_note_group,
     parse_grid_slice,
+    parse_phrase,
 )
 
 
@@ -50,4 +52,17 @@ def test_parse_sixteenth_roll():
     ]
     assert pipe(
         input, parse_note_group, dump_note_group, "\n".join
+    ) == "\n".join(input)
+
+
+def test_parse_phrase():
+    input = [
+        "--------  --------  3e+a4e+a  3e+a4e+a",
+        "x | x |   x | x |   |  || ||  |  || ||",
+        "|   /     |   /     |  // //  |  // //",
+        "|         |         /         /       ",
+        "/         /         /         /       ",
+    ]
+    assert pipe(
+        input, parse_phrase, dump_phrase, "\n".join
     ) == "\n".join(input)
