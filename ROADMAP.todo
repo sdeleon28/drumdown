@@ -1,0 +1,21 @@
+[ ] heading parser
+[ ] add loops
+[ ] add missing notes
+    [ ] crash
+        [ ] add to parser
+        [ ] add to drumkit map
+    [ ] snare ghost notes
+        [ ] add to parser
+        [ ] add to drumkit map
+    [ ] ride
+        [ ] add to parser
+        [ ] add to drumkit map
+    [ ] open hat
+        [ ] add to parser
+        [ ] add to drumkit map
+    [ ] open hat continuation
+        [ ] add to parser
+        [ ] add to drumkit map
+    [ ] hat close
+        [ ] add to parser
+        [ ] add to drumkit map
