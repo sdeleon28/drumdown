@@ -10,6 +10,11 @@ class Note(Enum):
     SNARE = "s"
     TOM = "t"
 
+    def __lt__(self, other):
+        if isinstance(other, Note):
+            return self.value < other.value
+        return NotImplemented
+
 
 NoteSet = Set[Note]
 
@@ -19,6 +24,10 @@ class GridSlice:
     note_type: str
     notes: NoteSet
     index: int
+
+    @property
+    def is_rest(self):
+        return self.notes == {Note.REST}
 
     def __str__(self):
         hat = "|" if self.notes & {Note.REST, Note.SNARE, Note.KICK} else " "
