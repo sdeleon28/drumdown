@@ -1,5 +1,5 @@
 from typing import List
-from drumdown import GridSlice, Note, parse_note_group, dump, parse_grid_slice
+from .drumdown import GridSlice, Note, parse_note_group, dump, parse_grid_slice
 
 
 def pipe(data, *funcs):
