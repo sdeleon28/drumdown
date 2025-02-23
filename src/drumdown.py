@@ -65,10 +65,19 @@ class Heading:
     text: str
     depth: int
 
+    def dump(self) -> List[str]:
+        return [
+            ("#"*self.depth) + f" {self.text}",
+            "",
+        ]
+
 
 @dataclass
 class Phrase:
     groups: List[NoteGroup]
+
+    def dump(self):
+        return dump_phrase(self)
 
     def __iter__(self):
         return iter(self.groups)
@@ -81,6 +90,12 @@ class Song:
     @property
     def phrases(self) -> List[Phrase]:
         return [node for node in self.nodes if type(node) == Phrase]
+
+    def append(self, x: Phrase | Heading):
+        self.nodes.append(x)
+
+    def __iter__(self):
+        return iter(self.nodes)
 
 
 def transpose(x: List[str]) -> List[str]:
@@ -139,4 +154,37 @@ def dump_phrase(x: Phrase) -> List[str]:
         out = concatenate_note_groups(out, g)
         if i < len(dumped_groups) - 1:
             out = concatenate_note_groups(out, ["  "] * len(g))
+    return [*out, "", ""]
+
+
+def parse_heading(line: str) -> Heading:
+    depth = 0
+    for c in line:
+        if c == "#":
+            depth += 1
+        else:
+            break
+    text = line[depth+1:]
+    return Heading(text, depth)
+
+
+def parse_song(x: List[str]) -> Song:
+    song = Song([])
+    accum = []
+    for line in x:
+        if line.strip().startswith("#"):
+            song.append(parse_heading(line))
+        elif line.strip():
+            accum.append(line)
+        else:
+            if accum:
+                song.append(parse_phrase(accum))
+            accum.clear()
+    return song
+
+
+def dump_song(x: Song) -> List[str]:
+    out: List[str] = []
+    for part in x:
+        out = [*out, *part.dump()]
     return out

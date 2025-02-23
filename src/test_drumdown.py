@@ -3,10 +3,12 @@ from .drumdown import (
     GridSlice,
     Note,
     dump_phrase,
+    dump_song,
     parse_note_group,
     dump_note_group,
     parse_grid_slice,
     parse_phrase,
+    parse_song,
 )
 
 
@@ -63,6 +65,26 @@ def test_parse_phrase():
         "|         |         /         /       ",
         "/         /         /         /       ",
     ]
+
+    def remove_empty_lines(x):
+        return filter(bool, x)
+
     assert pipe(
-        input, parse_phrase, dump_phrase, "\n".join
+        input, parse_phrase, dump_phrase, remove_empty_lines, "\n".join,
     ) == "\n".join(input)
+
+
+def test_parse_heading_and_phrase():
+    input = [
+        "# verse 1",
+        "",
+        "--------  --------  3e+a4e+a  3e+a4e+a",
+        "x | x |   x | x |   |  || ||  |  || ||",
+        "|   /     |   /     |  // //  |  // //",
+        "|         |         /         /       ",
+        "/         /         /         /       ",
+        "",
+        "",
+    ]
+    out = pipe(input, parse_song, dump_song, "\n".join) 
+    assert out == "\n".join(input)
