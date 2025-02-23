@@ -14,16 +14,17 @@ TD_17KVX_NOTES = {
 
 
 def write_note_group_to_midi(
-    note_group: List[GridSlice], filename: str, ticks_per_beat=480
+    track: mido.MidiTrack,
+    note_group: List[GridSlice],
+    ticks_per_beat=480,
+    offset=None,
 ):
-    mid = mido.MidiFile(ticks_per_beat=ticks_per_beat)
-    track = mido.MidiTrack()
-    mid.tracks.append(track)
     sixteenth_note_duration = ticks_per_beat // 4
-    prev_time = -sixteenth_note_duration
+    if offset is None:
+        offset=-sixteenth_note_duration
     for i, grid_slice in enumerate(note_group):
         if grid_slice.is_rest:
-            prev_time += sixteenth_note_duration
+            offset += sixteenth_note_duration
             continue
         sorted_notes = sorted(list(grid_slice.notes))
         for note_i, note in enumerate(sorted_notes):
@@ -34,9 +35,7 @@ def write_note_group_to_midi(
                     note=midi_note,
                     velocity=64,
                     time=(
-                        prev_time + sixteenth_note_duration
-                        if note_i == 0
-                        else 0
+                        offset + sixteenth_note_duration if note_i == 0 else 0
                     ),
                 )
                 track.append(msg)
@@ -50,5 +49,5 @@ def write_note_group_to_midi(
                     time=sixteenth_note_duration if note_i == 0 else 0,
                 )
                 track.append(msg)
-                prev_time = -sixteenth_note_duration
-    mid.save(filename)
+                offset = -sixteenth_note_duration
+    return offset

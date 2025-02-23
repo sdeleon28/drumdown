@@ -2,7 +2,7 @@ import mido
 
 from typing import List, Tuple
 from src.drumdown import GridSlice, Note
-from src.drumdown_midi import TD_17KVX_NOTES, write_note_group_to_midi
+from src.drumdown_midi import write_note_group_to_midi
 
 
 def test_write_note_group_to_midi():
@@ -18,12 +18,19 @@ def test_write_note_group_to_midi():
     ]
 
     filename = "test.mid"
-    write_note_group_to_midi(note_group, filename, ticks_per_beat=4)
-    mid = mido.MidiFile(filename, ticks_per_beat=16)
-    assert len(mid.tracks) == 1
-    ticks_per_beat = mid.ticks_per_beat
 
-    expected_track = mido.MidiTrack(
+    ticks_per_beat = 4
+    out_mid = mido.MidiFile(ticks_per_beat=ticks_per_beat)
+    track = mido.MidiTrack()
+    out_mid.tracks.append(track)
+    write_note_group_to_midi(track, note_group, ticks_per_beat=ticks_per_beat)
+    out_mid.save(filename)
+
+    read_mid = mido.MidiFile(filename)
+    assert len(read_mid.tracks) == 1
+    ticks_per_beat = read_mid.ticks_per_beat
+
+    assert read_mid.tracks[0] == mido.MidiTrack(
         [
             mido.Message("note_on", channel=0, note=36, velocity=64, time=0),
             mido.Message("note_on", channel=0, note=42, velocity=64, time=0),
@@ -40,5 +47,3 @@ def test_write_note_group_to_midi():
             mido.MetaMessage("end_of_track", time=0),
         ]
     )
-
-    assert mid.tracks[0] == expected_track
