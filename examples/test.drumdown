@@ -1,10 +1,12 @@
 # tempo = 165bpm
 
+# TODO: support hats with no kick (current parser ignores empty lines but might not be ready for | everywhere)
+
 --------
 x x x x 
-        
-        
-        
+| | | | 
+| | | | 
+/ / / / 
 
 
 ## intro_1
@@ -116,6 +118,7 @@ C | r r   r r r r   r r r r   r r r r
 |         | |       |         | |       
 /         / /       /         / /       
 
+
 --------  --------  --------  --------  |
 r r r r   r r r r   r r r r   r r r r   |
 |   /     | | /     |   /     | | /     |
@@ -128,7 +131,7 @@ r r r r   r r r r   r r r r   r | | |
 |   /     | | /     |   /     | | | |   
 |         | |       |         | | / /   
 /         / /       /         / /       
-  
+
 
 ## intro_3
 
@@ -235,6 +238,7 @@ C | x x   x x x x   x x x x   x x x x
 |         | |       | |       | |       
 /         / /       / /       / /       
 
+
 --------  --------  --------  --------  |   
 x x x x   x x x x   x x x x   x x x x   |   
 | | /     | | /     | | /     | | /     |   
@@ -256,8 +260,10 @@ x x x x   x x x x   x x x x   x x C |
 / /       / /       / /       / /       
 
 
->>>>>>>>  >>>>>>>>  >>>>>>>>  >>>>>>>>  
+# TODO: >>>>>>>>  >>>>>>>>  >>>>>>>>  >>>>>>>>  
+
 --------  --------  --------  --------  
+| | | |   | | | |   | | | |   | | | |   
 | | | |   | | | |   | | | |   | | | |   
 / / / /   / / / /   / / / /   / / / /   
 / / / /   / / / /   / / / /   / / / /   
@@ -270,6 +276,7 @@ C | r r   r r r r   r r r r   r r r r
 |   /     | | /     |   /     | | /     
 |         | |       |         | |       
 /         / /       /         / /       
+
 
 --------  --------  --------  --------  |   
 r r r r   r r r r   r r r r   r r r r   |   

@@ -14,6 +14,7 @@ TD_17KVX_NOTES = {
     Note.REST: None,
     Note.SNARE: 38,
     Note.SNARE_GHOST: 38,
+    Note.SNARE_FLAM: 38, # TODO
     Note.RIDE: 51,
     Note.CRASH: 49,
     Note.TOM: 41,

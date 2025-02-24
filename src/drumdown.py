@@ -12,6 +12,7 @@ class Note(Enum):
     REST = "|"
     SNARE = "s"
     SNARE_GHOST = "*"
+    SNARE_FLAM = "f"
     RIDE = "r"
     CRASH = "C"
     TOM = "t"
@@ -50,11 +51,15 @@ class GridSlice:
         elif Note.CRASH in self.notes:
             hat = "C"
         snare = " "
-        if Note.SNARE in self.notes or Note.SNARE_GHOST in self.notes:
+        if {Note.SNARE, Note.SNARE_GHOST, Note.SNARE_FLAM} & self.notes:
             if Note.SNARE in self.notes:
                 snare = "/"
             if Note.SNARE_GHOST in self.notes:
                 snare = "*"
+            if Note.SNARE_FLAM in self.notes:
+                snare = "f"
+        elif Note.TOM in self.notes:
+            snare = "|"
         elif Note.KICK in self.notes:
             snare = "|"
         tom = " "
@@ -148,6 +153,8 @@ def parse_grid_slice(i_x: Tuple[int, str]) -> GridSlice:
             notes.add(Note.SNARE)
         case "*":
             notes.add(Note.SNARE_GHOST)
+        case "f":
+            notes.add(Note.SNARE_FLAM)
     if kick == "/":
         notes.add(Note.KICK)
     return GridSlice(note_type, notes, i)

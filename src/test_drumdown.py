@@ -1,3 +1,5 @@
+import os
+
 from typing import List
 from .drumdown import (
     GridSlice,
@@ -139,3 +141,25 @@ def test_parse_song_with_more_note_types():
         "",
     ]
     assert pipe(input, parse_song, dump_song, "\n".join) == "\n".join(input)
+
+
+def test_parse_full_song():
+    examples_dir = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "examples/"
+    )
+    # TODO:
+    # for example in os.listdir(examples_dir):
+    for example in ["test.drumdown"]:
+        filename = os.path.join(examples_dir, example)
+        with open(filename, "r") as f:
+            lines = [line.replace("\n", "") for line in f.readlines()]
+            assert (
+                pipe(
+                    lines,
+                    parse_song,
+                    dump_song,
+                    lambda data: map(lambda x: x.strip(), data),
+                    list
+                )
+                == [line.strip() for line in lines]
+            )
