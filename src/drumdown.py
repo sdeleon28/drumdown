@@ -75,6 +75,7 @@ class Heading:
 @dataclass
 class Phrase:
     groups: List[NoteGroup]
+    times: int
 
     def dump(self):
         return dump_phrase(self)
@@ -130,6 +131,11 @@ def dump_note_group(x: List[GridSlice]) -> List[str]:
 
 def parse_phrase(x: List[str]) -> Phrase:
     note_type_line = x[0]
+    times = 1
+    if "|" in note_type_line:
+        pipe_index = note_type_line.index("|")
+        note_type_line = note_type_line.split("|")[0].strip()
+        times = int(x[-1][-1])
     group_lengths = [len(x) for x in note_type_line.split()]
     tx = transpose(x)
     groups = []
@@ -138,7 +144,7 @@ def parse_phrase(x: List[str]) -> Phrase:
             parse_note_group(transpose(tx[:l]))
         )
         tx = tx[l+2:]
-    return Phrase(groups)
+    return Phrase(groups, times)
 
 
 def concatenate_note_groups(x: List[str], y: List[str]) -> List[str]:
@@ -154,6 +160,15 @@ def dump_phrase(x: Phrase) -> List[str]:
         out = concatenate_note_groups(out, g)
         if i < len(dumped_groups) - 1:
             out = concatenate_note_groups(out, ["  "] * len(g))
+    if x.times > 1:
+        loop_marker = [
+            "  |   ",
+            "  |   ",
+            "  |   ",
+            "  |   ",
+            f"  | x{x.times}",
+        ]
+        out = concatenate_note_groups(out, loop_marker)
     return [*out, "", ""]
 
 

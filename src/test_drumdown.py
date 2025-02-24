@@ -57,6 +57,10 @@ def test_parse_sixteenth_roll():
     ) == "\n".join(input)
 
 
+def remove_empty_lines(x):
+    return filter(bool, x)
+
+
 def test_parse_phrase():
     input = [
         "--------  --------  3e+a4e+a  3e+a4e+a",
@@ -65,10 +69,19 @@ def test_parse_phrase():
         "|         |         /         /       ",
         "/         /         /         /       ",
     ]
+    assert pipe(
+        input, parse_phrase, dump_phrase, remove_empty_lines, "\n".join,
+    ) == "\n".join(input)
 
-    def remove_empty_lines(x):
-        return filter(bool, x)
 
+def test_parse_phrase_with_loop():
+    input = [
+        "--------  --------  3e+a4e+a  3e+a4e+a  |   ",
+        "x | x |   x | x |   |  || ||  |  || ||  |   ",
+        "|   /     |   /     |  // //  |  // //  |   ",
+        "|         |         /         /         |   ",
+        "/         /         /         /         | x3",
+    ]
     assert pipe(
         input, parse_phrase, dump_phrase, remove_empty_lines, "\n".join,
     ) == "\n".join(input)
