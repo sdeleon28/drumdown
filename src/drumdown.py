@@ -5,9 +5,15 @@ from dataclasses import dataclass
 
 class Note(Enum):
     CLOSED_HAT = "x"
+    OPEN_HAT = "o"
+    OPEN_HAT_CONTINUATION = "-"
+    OPEN_HAT_CLOSED = "}"
     KICK = "K"
     REST = "|"
     SNARE = "s"
+    SNARE_GHOST = "*"
+    RIDE = "r"
+    CRASH = "C"
     TOM = "t"
 
     def __lt__(self, other):
@@ -33,9 +39,22 @@ class GridSlice:
         hat = "|" if self.notes & {Note.REST, Note.SNARE, Note.KICK} else " "
         if Note.CLOSED_HAT in self.notes:
             hat = "x"
+        elif Note.OPEN_HAT in self.notes:
+            hat = "o"
+        elif Note.OPEN_HAT_CONTINUATION in self.notes:
+            hat = "-"
+        elif Note.OPEN_HAT_CLOSED in self.notes:
+            hat = "}"
+        elif Note.RIDE in self.notes:
+            hat = "r"
+        elif Note.CRASH in self.notes:
+            hat = "C"
         snare = " "
-        if Note.SNARE in self.notes:
-            snare = "/"
+        if Note.SNARE in self.notes or Note.SNARE_GHOST in self.notes:
+            if Note.SNARE in self.notes:
+                snare = "/"
+            if Note.SNARE_GHOST in self.notes:
+                snare = "*"
         elif Note.KICK in self.notes:
             snare = "|"
         tom = " "
@@ -106,16 +125,29 @@ def transpose(x: List[str]) -> List[str]:
 def parse_grid_slice(i_x: Tuple[int, str]) -> GridSlice:
     i, x = i_x
     notes: NoteSet = set([])
-    note_type, hat, snare, tom, kick = list(x)
-    match hat:
+    note_type, cymbal, snare, tom, kick = list(x)
+    match cymbal:
         case "x":
             notes.add(Note.CLOSED_HAT)
+        case "o":
+            notes.add(Note.OPEN_HAT)
+        case "-":
+            notes.add(Note.OPEN_HAT_CONTINUATION)
+        case "}":
+            notes.add(Note.OPEN_HAT_CLOSED)
+        case "r":
+            notes.add(Note.RIDE)
+        case "C":
+            notes.add(Note.CRASH)
         case "|":
             notes.add(Note.REST)
     if tom == "/":
         notes.add(Note.TOM)
-    if snare == "/":
-        notes.add(Note.SNARE)
+    match snare:
+        case "/":
+            notes.add(Note.SNARE)
+        case "*":
+            notes.add(Note.SNARE_GHOST)
     if kick == "/":
         notes.add(Note.KICK)
     return GridSlice(note_type, notes, i)

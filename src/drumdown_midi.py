@@ -7,10 +7,16 @@ from .drumdown import GridSlice, Heading, Note, NoteGroup, Phrase, Song
 
 TD_17KVX_NOTES = {
     Note.CLOSED_HAT: 42,
+    Note.OPEN_HAT: 46,
+    Note.OPEN_HAT_CONTINUATION: None, # rest
+    Note.OPEN_HAT_CLOSED: 44,
     Note.KICK: 36,
-    Note.SNARE: 38,
-    Note.TOM: 41,
     Note.REST: None,
+    Note.SNARE: 38,
+    Note.SNARE_GHOST: 38,
+    Note.RIDE: 51,
+    Note.CRASH: 49,
+    Note.TOM: 41,
 }
 DEFAULT_TICKS_PER_BEAT = 480
 

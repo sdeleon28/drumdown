@@ -70,7 +70,11 @@ def test_parse_phrase():
         "/         /         /         /       ",
     ]
     assert pipe(
-        input, parse_phrase, dump_phrase, remove_empty_lines, "\n".join,
+        input,
+        parse_phrase,
+        dump_phrase,
+        remove_empty_lines,
+        "\n".join,
     ) == "\n".join(input)
 
 
@@ -83,7 +87,11 @@ def test_parse_phrase_with_loop():
         "/         /         /         /         | x3",
     ]
     assert pipe(
-        input, parse_phrase, dump_phrase, remove_empty_lines, "\n".join,
+        input,
+        parse_phrase,
+        dump_phrase,
+        remove_empty_lines,
+        "\n".join,
     ) == "\n".join(input)
 
 
@@ -99,5 +107,35 @@ def test_parse_heading_and_phrase():
         "",
         "",
     ]
-    out = pipe(input, parse_song, dump_song, "\n".join) 
-    assert out == "\n".join(input)
+    assert pipe(input, parse_song, dump_song, "\n".join) == "\n".join(input)
+
+
+def test_parse_song_with_more_note_types():
+    input = [
+        "# verse 1",
+        "",
+        "--------  --------  --------  ----====",
+        "x | x |   x | | C   | | | |   | | ||||",
+        "|   /     | | / |     | /     | | / **",
+        "|         | |   |     |       / | /   ",
+        "/         / /   /     /       / /     ",
+        "",
+        "",
+        "# chorus 1",
+        "",
+        "--------  --------  --------  --------",
+        "C | r r   r r r r   r r r r   r r r r ",
+        "|   /     | | /     |   /     | | /   ",
+        "|         | |       |         | |     ",
+        "/         / /       /         / /     ",
+        "",
+        "",
+        "--------  --------  --------  --------",
+        "r r r r   r r o -   } | | |   | | | | ",
+        "|   /     | | /     |                 ",
+        "|         | |       |                 ",
+        "/         / /       /                 ",
+        "",
+        "",
+    ]
+    assert pipe(input, parse_song, dump_song, "\n".join) == "\n".join(input)
