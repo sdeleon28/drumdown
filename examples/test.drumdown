@@ -2,11 +2,11 @@
 
 # TODO: support hats with no kick (current parser ignores empty lines but might not be ready for | everywhere)
 
---------
-x x x x 
-| | | | 
-| | | | 
-/ / / / 
+--------  --------
+x | x |   x | x | 
+|   |     |   |   
+|   |     |   |   
+/   /     /   /   
 
 
 ## intro_1
