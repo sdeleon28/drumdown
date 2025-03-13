@@ -8,13 +8,13 @@ from .drumdown import GridSlice, Heading, Note, NoteGroup, Phrase, Song
 TD_17KVX_NOTES = {
     Note.CLOSED_HAT: 42,
     Note.OPEN_HAT: 46,
-    Note.OPEN_HAT_CONTINUATION: None, # rest
+    Note.OPEN_HAT_CONTINUATION: None,  # rest
     Note.OPEN_HAT_CLOSED: 44,
     Note.KICK: 36,
     Note.REST: None,
     Note.SNARE: 38,
     Note.SNARE_GHOST: 38,
-    Note.SNARE_FLAM: 38, # TODO
+    Note.SNARE_FLAM: 38,  # TODO
     Note.RIDE: 51,
     Note.CRASH: 49,
     Note.TOM: 41,
@@ -82,5 +82,9 @@ def write_song_to_midi(
     ticks_per_beat=DEFAULT_TICKS_PER_BEAT,
 ):
     offset = None
-    note_groups = Phrase(list(itertools.chain.from_iterable(song.phrases)))
+    # FIXME: this flattens all song phrases into a single, long phrase
+    # it should instead care about `phrase.times`
+    note_groups = Phrase(
+        list(itertools.chain.from_iterable(song.phrases)), times=1
+    )
     write_phrase_to_midi(track, note_groups, ticks_per_beat)

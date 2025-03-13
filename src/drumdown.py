@@ -34,7 +34,7 @@ class GridSlice:
 
     @property
     def is_rest(self):
-        return self.notes == {Note.REST}
+        return not self.notes or self.notes == {Note.REST}
 
     def __str__(self):
         hat = "|" if self.notes & {Note.REST, Note.SNARE, Note.KICK} else " "

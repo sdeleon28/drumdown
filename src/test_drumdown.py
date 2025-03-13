@@ -23,6 +23,27 @@ def pipe(data, *funcs):
 def test_parse_money_beat_half_bar():
     input = [
         "--------",
+        "x x x x ",
+        "|   /   ",
+        "|       ",
+        "/       ",
+    ]
+    half_money_beat = [
+        GridSlice("-", {Note.KICK, Note.CLOSED_HAT}, 0),
+        GridSlice("-", set([]), 1),
+        GridSlice("-", {Note.CLOSED_HAT}, 2),
+        GridSlice("-", set([]), 3),
+        GridSlice("-", {Note.CLOSED_HAT, Note.SNARE}, 4),
+        GridSlice("-", set([]), 5),
+        GridSlice("-", {Note.CLOSED_HAT}, 6),
+        GridSlice("-", set([]), 7),
+    ]
+    assert parse_note_group(input) == half_money_beat
+
+
+def test_parse_money_beat_half_bar_and_dump_it():
+    input = [
+        "--------",
         "x | x | ",
         "|   /   ",
         "|       ",
@@ -33,7 +54,7 @@ def test_parse_money_beat_half_bar():
     ) == "\n".join(input)
 
 
-def test_parse_busier_kick_pattern():
+def test_parse_busier_kick_pattern_and_dump_it():
     input = [
         "--------",
         "x | x | ",
@@ -46,7 +67,7 @@ def test_parse_busier_kick_pattern():
     ) == "\n".join(input)
 
 
-def test_parse_sixteenth_roll():
+def test_parse_sixteenth_roll_and_dump_it():
     input = [
         "3e+a4e+a",
         "|  || ||",
@@ -63,7 +84,7 @@ def remove_empty_lines(x):
     return filter(bool, x)
 
 
-def test_parse_phrase():
+def test_parse_phrase_and_dump_it():
     input = [
         "--------  --------  3e+a4e+a  3e+a4e+a",
         "x | x |   x | x |   |  || ||  |  || ||",
@@ -80,7 +101,7 @@ def test_parse_phrase():
     ) == "\n".join(input)
 
 
-def test_parse_phrase_with_loop():
+def test_parse_phrase_with_loop_and_dump_it():
     input = [
         "--------  --------  3e+a4e+a  3e+a4e+a  |   ",
         "x | x |   x | x |   |  || ||  |  || ||  |   ",
@@ -97,7 +118,7 @@ def test_parse_phrase_with_loop():
     ) == "\n".join(input)
 
 
-def test_parse_heading_and_phrase():
+def test_parse_heading_and_phrase_and_dump_it():
     input = [
         "# verse 1",
         "",
@@ -112,7 +133,7 @@ def test_parse_heading_and_phrase():
     assert pipe(input, parse_song, dump_song, "\n".join) == "\n".join(input)
 
 
-def test_parse_song_with_more_note_types():
+def test_parse_song_with_more_note_types_and_dump_it():
     input = [
         "# verse 1",
         "",
