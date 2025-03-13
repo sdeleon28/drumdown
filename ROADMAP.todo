@@ -25,11 +25,14 @@
         [X] add to parser
         [X] add to grid slice dump
         [X] add to drumkit map
-    [-] snare flam
-        [-] add to parser
-        [ ] add to grid slice dump
-        [ ] add to drumkit map
+    [X] snare flam
+        [X] add to parser
+        [X] add to grid slice dump
+        [X] add to drumkit map
 [x] write test to parse entire song
+[ ] sixteenth notes not played correctly (played as 8ths?)
+    [ ] it's probably a bug counting rests that are note explicitly written
+[ ] FIXME in `write_song_to_midi`
 [ ] figure out how to handle flam to midi
 [ ] handle velocities more gracefully
 [ ] hide vim bindings behind autocmdgroup
